@@ -3,7 +3,7 @@ spring:
     name: eureka-server
 
 server:
-  port: ${PORT:8761}  # ⬅️ CAMBIO CRÍTICO: Puerto dinámico de Railway
+  port: 8761
 
 eureka:
   instance:
