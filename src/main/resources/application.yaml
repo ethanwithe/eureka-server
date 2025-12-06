@@ -3,17 +3,28 @@ spring:
     name: eureka-server
 
 server:
-  port: 8761
+  port: ${PORT:8761}  # ⬅️ CAMBIO CRÍTICO: Puerto dinámico de Railway
 
 eureka:
+  instance:
+    hostname: ${RAILWAY_PUBLIC_DOMAIN:localhost}  # ⬅️ NUEVO: Hostname público
+    prefer-ip-address: false
   client:
     register-with-eureka: false
     fetch-registry: false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/  # ⬅️ NUEVO
   server:
     enable-self-preservation: false
     eviction-interval-timer-in-ms: 5000
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info  # ⬅️ NUEVO: Para health checks
+
 logging:
   level:
-    com.netflix.eureka: OFF
-    com.netflix.discovery: OFF
+    com.netflix.eureka: DEBUG  # ⬅️ CAMBIO: Activar logs para debugging
+    com.netflix.discovery: DEBUG
